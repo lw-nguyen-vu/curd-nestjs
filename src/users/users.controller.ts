@@ -16,7 +16,7 @@ import { JwtAuthGuard } from 'src/auth/guards';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @UseGuards(JwtAuthGuard)
@@ -31,7 +31,7 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Request() req): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     const users = await this.usersService.findAll();
     return users;
   }

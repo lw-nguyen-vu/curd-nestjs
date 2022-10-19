@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { typeOrmAsyncConfig } from './config/typeorm.config';
+import { dataSourceOptions } from './config/typeorm.config';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -12,7 +12,7 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     UsersModule,
   ],
