@@ -6,8 +6,7 @@ import {
   MinLength,
   IsOptional,
 } from 'class-validator';
-
-import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 import {
   BeforeInsert,
   Column,
@@ -22,12 +21,12 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar')
-  @IsNotEmpty()
+  @Column('varchar', { nullable: true })
+  @IsOptional()
   @IsString()
   name: string;
 
-  @Column('varchar')
+  @Column('varchar', { unique: true })
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -43,8 +42,9 @@ export class User {
   address: string | null;
 
   @BeforeInsert()
-  hashPassword() {
-    this.password = crypto.createHmac('sha256', this.password).digest('hex');
+  async hashPassword() {
+    const SALT_OR_ROUNDS = 10;
+    this.password = await bcrypt.hash(this.password, SALT_OR_ROUNDS);
   }
 
   @Column('varchar')
